@@ -14,6 +14,7 @@ SRC_URI   = "file://usb"
 S = "${WORKDIR}/usb"
 
 USBCOMPOSITION ?= "901D"
+USBCOMPOSITION_sxrneo = "9060"
 
 DEPENDS += "libcutils libutils"
 do_install_append() {
