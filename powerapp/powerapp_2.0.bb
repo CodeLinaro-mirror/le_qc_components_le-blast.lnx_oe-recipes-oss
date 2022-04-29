@@ -27,6 +27,9 @@ PROVIDES =+ "${PN}-reboot ${PN}-shutdown ${PN}-powerconfig"
 EXTRA_OECONF  = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} "
 EXTRA_OECONF += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '--enable-vm-config', '', d)}"
 
+# Following machines have individual power_config settings
+EXTRA_OECONF_append_neo = " --with-basemachine=${BASEMACHINE}"
+
 do_install_append() {
            ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_reboot
            ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_shutdown
@@ -65,6 +68,8 @@ pkg_postinst_${PN} () {
            update-rc.d $OPT reset_reboot_cookie start 55 2 3 4 5 .
         fi
 }
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SYSTEMD_SERVICE_${PN}  = " reset_reboot_cookie.service "
 SYSTEMD_SERVICE_${PN}  = " power_config.service "
