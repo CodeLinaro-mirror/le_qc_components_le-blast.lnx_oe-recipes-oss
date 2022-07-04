@@ -14,6 +14,7 @@ S = "${WORKDIR}/rootdir"
 PACKAGECONFIG_append_qcx40x = " debug"
 PACKAGECONFIG_append_genericarmv8 = "${@bb.utils.contains('DEBUG_BUILD', \
                                        '1', " debug", "", d)}"
+PACKAGECONFIG_append_neo = " debug"
 
 PACKAGECONFIG[logrestrict] = "--enable-logrestrict,--disable-logrestrict"
 PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
