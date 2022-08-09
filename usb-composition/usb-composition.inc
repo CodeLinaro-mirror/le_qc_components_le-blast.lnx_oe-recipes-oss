@@ -13,15 +13,12 @@ SRC_URI   = "file://usb"
 
 S = "${WORKDIR}/usb"
 
-USBCOMPOSITION ?= "901D"
-USBCOMPOSITION_sxrneo = "9060"
-
 DEPENDS += "libcutils libutils"
+
 do_install_append() {
    install -d ${D}${sysconfdir}/usb/
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsic_comp
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsusb_comp
-   echo ${USBCOMPOSITION} > ${D}${sysconfdir}/usb/boot_hsusb_comp
 
    install -d ${D}${base_sbindir}/
    install -m 0755 ${S}/usb_composition -D ${D}${base_sbindir}/
