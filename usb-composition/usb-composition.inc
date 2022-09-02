@@ -13,15 +13,12 @@ SRC_URI   = "file://usb"
 
 S = "${WORKDIR}/usb"
 
-USBCOMPOSITION ?= "901D"
-USBCOMPOSITION_sxrneo = "9060"
-
 DEPENDS += "libcutils libutils"
+
 do_install_append() {
    install -d ${D}${sysconfdir}/usb/
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsic_comp
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsusb_comp
-   echo ${USBCOMPOSITION} > ${D}${sysconfdir}/usb/boot_hsusb_comp
 
    install -d ${D}${base_sbindir}/
    install -m 0755 ${S}/usb_composition -D ${D}${base_sbindir}/
@@ -41,5 +38,11 @@ do_install_append() {
    install -m 0644 ${S}/usbd.service -D ${D}${systemd_unitdir}/system/usbd.service
 }
 
-SYSTEMD_SERVICE_${PN} = "usb.service usbd.service"
-FILES_${PN} += "${systemd_unitdir}/system/"
+PACKAGES_prepend = "${PN}-usbd "
+
+SYSTEMD_PACKAGES = "${PN}-usbd ${PN}"
+SYSTEMD_SERVICE_${PN} = "usb.service"
+SYSTEMD_SERVICE_${PN}-usbd = "usbd.service"
+
+FILES_${PN} += "${systemd_unitdir}/system/usb.service"
+FILES_${PN}-usbd += "${bindir}/usbd ${systemd_unitdir}/system/usbd.service"
