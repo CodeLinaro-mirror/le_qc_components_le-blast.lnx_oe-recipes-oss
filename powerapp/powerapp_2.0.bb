@@ -27,6 +27,9 @@ PROVIDES =+ "${PN}-reboot ${PN}-shutdown ${PN}-powerconfig"
 EXTRA_OECONF  = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} "
 EXTRA_OECONF += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '--enable-vm-config', '', d)}"
 
+DEPENDS += "glib-2.0"
+EXTRA_OECONF += "--with-glib"
+
 # Following machines have individual power_config settings
 EXTRA_OECONF_append_neo = " --with-basemachine=${BASEMACHINE}"
 
@@ -61,6 +64,14 @@ pkg_postinst_${PN}-powerconfig () {
 	fi
 }
 
+pkg_postinst_${PN}-enableautosleep () {
+        if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
+	   [ -n "$D" ] && OPT="-r $D" || OPT="-s"
+           update-rc.d $OPT -f enable-autosleep remove
+           update-rc.d $OPT enable_autosleep start 99 2 3 4 5 . stop 50 0 1 6 .
+        fi
+}
+
 pkg_postinst_${PN} () {
         if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
            [ -n "$D" ] && OPT="-r $D" || OPT="-s"
@@ -72,5 +83,6 @@ pkg_postinst_${PN} () {
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SYSTEMD_SERVICE_${PN}  = " reset_reboot_cookie.service "
-SYSTEMD_SERVICE_${PN}  = " power_config.service "
-SYSTEMD_SERVICE_${PN} += "${@bb.utils.contains('MACHINE_FEATURES','qti-vm',' powerapp.service ','',d)}"
+SYSTEMD_SERVICE_${PN}  += " power_config.service "
+SYSTEMD_SERVICE_${PN}  += " enable_autosleep.service "
+SYSTEMD_SERVICE_${PN}  += "${@bb.utils.contains('MACHINE_FEATURES','qti-vm',' powerapp.service ','',d)}"
