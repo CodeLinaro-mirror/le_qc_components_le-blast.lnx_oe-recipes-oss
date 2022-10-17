@@ -12,11 +12,14 @@ SRC_URI = "file://adb \
 
 S = "${WORKDIR}/adb"
 
-DEPENDS += "ext4-utils glib-2.0 fsmgr libselinux libbase libcutils liblog"
+DEPENDS += "ext4-utils glib-2.0 fsmgr libselinux libbase libcutils liblog virtual/mkbootimg"
+
+# If BOOT_HEADER_VERSION >= 3 and SKIP_VENDOR_BOOT is not True, then vendor_boot will have verity cmdline.
+BOOT_VER = "${@ ('%s' % d.getVar('BOOT_HEADER_VERSION')) if (d.getVar('SKIP_VENDOR_BOOT') != 'True') else '0'}"
 
 EXTRA_OECONF = " \
                   --with-glib \
-                  --with-core-includes=${WORKSPACE}/system/core/include \
+                  --with-bootver=${BOOT_VER} \
 "
 do_install_append() {
     install -d ${D}${base_sbindir}
