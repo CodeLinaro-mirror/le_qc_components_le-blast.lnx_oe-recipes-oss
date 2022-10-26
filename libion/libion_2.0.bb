@@ -14,7 +14,7 @@ DEPENDS += "liblog linux-msm-headers"
 
 LEGACYION = "${@d.getVar('LEGACY_ION_USAGE') or "False"}"
 
-EXTRA_OECONF_append = " \
+EXTRA_OECONF:append = " \
     --disable-static \
     --with-sanitized-headers=${STAGING_INCDIR}/linux-msm/usr/include \
     ${@oe.utils.conditional('LEGACYION', 'True', ' --enable-legacyion', '', d)} \
@@ -22,7 +22,7 @@ EXTRA_OECONF_append = " \
 
 PACKAGES +="${PN}-test-bin"
 
-FILES_${PN}     = "${libdir}/pkgconfig/* ${libdir}/* ${sysconfdir}/*"
-FILES_${PN}-test-bin = "${base_bindir}/*"
+FILES:${PN}     = "${libdir}/pkgconfig/* ${libdir}/* ${sysconfdir}/*"
+FILES:${PN}-test-bin = "${base_bindir}/*"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"

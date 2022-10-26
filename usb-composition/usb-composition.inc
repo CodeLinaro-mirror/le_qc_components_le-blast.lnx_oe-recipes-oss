@@ -8,14 +8,14 @@ Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10 \
                     file://${COREBASE}/meta/files/common-licenses/\
 BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 
-FILESEXTRAPATHS_prepend := "${WORKSPACE}/system/core/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://usb"
 
 S = "${WORKDIR}/usb"
 
 DEPENDS += "libcutils libutils"
 
-do_install_append() {
+do_install:append() {
    install -d ${D}${sysconfdir}/usb/
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsic_comp
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsusb_comp
@@ -38,11 +38,11 @@ do_install_append() {
    install -m 0644 ${S}/usbd.service -D ${D}${systemd_unitdir}/system/usbd.service
 }
 
-PACKAGES_prepend = "${PN}-usbd "
+PACKAGES:prepend = "${PN}-usbd "
 
-SYSTEMD_PACKAGES = "${PN}-usbd ${PN}"
-SYSTEMD_SERVICE_${PN} = "usb.service"
-SYSTEMD_SERVICE_${PN}-usbd = "usbd.service"
+SYSTEMD:PACKAGES = "${PN}-usbd ${PN}"
+SYSTEMD:SERVICE_${PN} = "usb.service"
+SYSTEMD:SERVICE_${PN}-usbd = "usbd.service"
 
-FILES_${PN} += "${systemd_unitdir}/system/usb.service"
-FILES_${PN}-usbd += "${bindir}/usbd ${systemd_unitdir}/system/usbd.service"
+FILES:${PN} += "${systemd_unitdir}/system/usb.service"
+FILES:${PN}-usbd += "${bindir}/usbd ${systemd_unitdir}/system/usbd.service"

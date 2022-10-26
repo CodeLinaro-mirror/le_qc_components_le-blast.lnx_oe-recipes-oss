@@ -15,4 +15,4 @@ S = "${WORKDIR}/libsparse"
 
 BBCLASSEXTEND = "native"
 
-EXTRA_OECONF_append_class-native = "  --enable-img-convert-utils"
+EXTRA_OECONF:append:class-native = "  --enable-img-convert-utils"
