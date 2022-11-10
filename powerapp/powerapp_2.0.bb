@@ -28,7 +28,7 @@ EXTRA_OECONF  = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-sys
 EXTRA_OECONF += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '--enable-vm-config', '', d)}"
 
 # Following machines have individual power_config settings
-EXTRA_OECONF:append_neo = " --with-basemachine=${BASEMACHINE}"
+EXTRA_OECONF:append:neo = " --with-basemachine=${BASEMACHINE}"
 
 do_install:append() {
            ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_reboot

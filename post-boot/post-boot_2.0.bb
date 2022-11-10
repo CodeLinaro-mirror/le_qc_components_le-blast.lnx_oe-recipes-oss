@@ -11,10 +11,10 @@ SRC_URI  = "file://rootdir"
 
 S = "${WORKDIR}/rootdir"
 
-PACKAGECONFIG:append_qcx40x = " debug"
-PACKAGECONFIG:append_genericarmv8 = "${@bb.utils.contains('DEBUG_BUILD', \
+PACKAGECONFIG:append:qcx40x = " debug"
+PACKAGECONFIG:append:genericarmv8 = "${@bb.utils.contains('DEBUG_BUILD', \
                                        '1', " debug", "", d)}"
-PACKAGECONFIG:append_neo = " debug"
+PACKAGECONFIG:append:neo = " debug"
 
 PACKAGECONFIG[logrestrict] = "--enable-logrestrict,--disable-logrestrict"
 PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
