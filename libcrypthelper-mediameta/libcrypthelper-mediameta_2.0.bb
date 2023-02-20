@@ -15,8 +15,9 @@ SRC_URI  += "file://configs/"
 S = "${WORKDIR}/crypthelper-mediameta"
 
 CONFIG ?= "default.conf"
-CONFIG_cinder = "cinder.conf"
-CONFIG_neo = "neo.conf"
+CONFIG:cinder  = "cinder.conf"
+CONFIG:sxrneo  = "neo.conf"
+CONFIG:sm8450p = "waipio.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
