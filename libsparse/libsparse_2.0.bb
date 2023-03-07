@@ -8,11 +8,11 @@ ${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 
 DEPENDS += "zlib"
 
-FILESPATH =+ "${WORKSPACE}/system/core/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://libsparse"
 
 S = "${WORKDIR}/libsparse"
 
 BBCLASSEXTEND = "native"
 
-EXTRA_OECONF_append_class-native = "  --enable-img-convert-utils"
+EXTRA_OECONF:append:class-native = "  --enable-img-convert-utils"
