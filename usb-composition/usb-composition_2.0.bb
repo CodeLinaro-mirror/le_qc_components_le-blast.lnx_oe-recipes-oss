@@ -1,5 +1,8 @@
 include usb-composition.inc
 
+EXTRA_OECONF:append = " --with-basemachine=${BASEMACHINE} "
+
+
 do_install[postfuncs] += "fixup_usb_service"
 fixup_usb_service() {
    # For SDX targets, start USB early in boot chain and hence needs early mount-copybinds.
