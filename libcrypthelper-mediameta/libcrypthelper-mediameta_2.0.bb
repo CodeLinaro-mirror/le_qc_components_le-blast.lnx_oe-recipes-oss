@@ -4,9 +4,10 @@ DESCRIPTION = "Build crypthelper-mediameta, a helper library\
                to provide mapping between encryption meta and\
                encryptable block devices"
 
-LICENSE = "BSD"
+LICENSE = "BSD-Source-Code"
+
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
-${LICENSE};md5=3775480a712fc46a69647678acb234cb"
+${LICENSE};md5=fe8b41221d7524c70688f7d059ff6d87"
 
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/libcrypthelper-mediameta/:"
 SRC_URI   = "file://crypthelper-mediameta"
