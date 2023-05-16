@@ -19,6 +19,7 @@ CONFIG ?= "default.conf"
 CONFIG:cinder  = "cinder.conf"
 CONFIG:sxrneo  = "neo.conf"
 CONFIG:sm8450p = "waipio.conf"
+CONFIG:qrb5165 = "qrb5165.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
