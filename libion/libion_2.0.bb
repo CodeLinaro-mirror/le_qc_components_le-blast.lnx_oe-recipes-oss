@@ -12,12 +12,9 @@ SRC_URI   = "file://libion"
 S = "${WORKDIR}/libion"
 DEPENDS += "liblog linux-msm-headers"
 
-LEGACYION = "${@d.getVar('LEGACY_ION_USAGE') or "False"}"
-
 EXTRA_OECONF:append = " \
     --disable-static \
     --with-sanitized-headers=${STAGING_INCDIR}/linux-msm/usr/include \
-    ${@oe.utils.conditional('LEGACYION', 'True', ' --enable-legacyion', '', d)} \
 "
 
 PACKAGES +="${PN}-test-bin"
