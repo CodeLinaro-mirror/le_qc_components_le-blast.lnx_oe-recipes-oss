@@ -1,4 +1,3 @@
-inherit  autotools
 
 DESCRIPTION = "Boot image creation tool from Android"
 LICENSE = "Apache-2.0"
@@ -11,8 +10,34 @@ S = "${WORKDIR}/${BPN}"
 
 DEPENDS += "libmincrypt-native"
 
-NATIVE_INSTALL_WORKS = "1"
-
 PROVIDES = "virtual/mkbootimg"
 
 BBCLASSEXTEND = "native"
+
+do_compile:class-target[noexec] = "1"
+do_configure[noexec] = "1"
+MY_PN = "mkbootimg"
+
+EXTRA_OEMAKE = "INCLUDES='-Imincrypt' LIBS='${libdir}/libmincrypt.a'"
+
+do_compile:class-native () {
+    cp -rf ${WORKSPACE}/system/core/${MY_PN}/* ${S}
+    cd ${S}
+	oe_runmake
+    cd -
+}
+
+do_compile:class-target () {
+    :
+}
+
+do_install:class-native () {
+    install -d ${D}/${bindir}
+    cp ${S}/mkbootimg ${D}/${bindir}
+}
+
+do_install:class-target() {
+    install -d ${D}${includedir}
+    install -d ${D}${includedir}/bootimg
+    install ${S}/bootimg.h ${D}${includedir}/bootimg.h
+}
