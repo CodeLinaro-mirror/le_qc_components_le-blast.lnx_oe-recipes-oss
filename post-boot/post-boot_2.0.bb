@@ -12,7 +12,8 @@ SRC_URI += "file://init_post_boot.conf"
 
 S = "${WORKDIR}/rootdir"
 
-PACKAGECONFIG:append:qcs40x = " debug"
+PACKAGECONFIG:append:qcs40x = "${@bb.utils.contains('DEBUG_BUILD', '1', "debug", "", d)}"
+
 PACKAGECONFIG:append:genericarmv8 = "${@bb.utils.contains('DEBUG_BUILD', \
                                        '1', " debug", "", d)}"
 PACKAGECONFIG:appendr:sa410m = "debug"
