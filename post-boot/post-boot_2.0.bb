@@ -12,7 +12,8 @@ SRC_URI += "file://init_post_boot.conf"
 
 S = "${WORKDIR}/rootdir"
 
-PACKAGECONFIG:append:qcs40x = " debug"
+PACKAGECONFIG:append:qcs40x = "${@bb.utils.contains('DEBUG_BUILD', '1', "debug", "", d)}"
+
 PACKAGECONFIG:append:genericarmv8 = "${@bb.utils.contains('DEBUG_BUILD', \
                                        '1', " debug", "", d)}"
 PACKAGECONFIG:appendr:sa410m = "debug"
@@ -39,6 +40,12 @@ do_install:append() {
                install -m 0744 ${WORKDIR}/init_post_boot.conf -D \
                    ${D}${systemd_unitdir}/system/init_post_boot.service.d/init_post_boot.service.conf
         fi
+    fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'kalama', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
     fi
 }
 
