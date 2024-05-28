@@ -38,6 +38,10 @@ do_install:append() {
         sed -i 's/default.target/local-fs.target/g' ${D}${systemd_unitdir}/system/adbd.service
         sed -i 's/default.target/local-fs.target/g' ${D}${systemd_unitdir}/system/pcie.service
     fi
+
+    if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', 'true', 'false', d)}; then
+        install -m 0644 ${S}/adbd-vsock.service -D ${D}${systemd_unitdir}/system/adbd.service
+    fi
 }
 
 SYSTEMD_SERVICE:${PN}  = " adbd.service "
