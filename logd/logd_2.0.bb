@@ -31,6 +31,9 @@ do_install:append() {
                ${D}${systemd_unitdir}/system/ffbm.target.wants/logd.path
         ln -sf ${systemd_unitdir}/system/earlyinit-logd.service \
                ${D}${systemd_unitdir}/system/ffbm.target.wants/earlyinit-logd.service
+	if [ "${MACHINE}" == "mdm9607" ]; then
+           sed -i '/\[Service\]/a Restart=on-failure' ${D}${systemd_unitdir}/system/logd.service
+        fi
     fi
 }
 
