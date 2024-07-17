@@ -20,4 +20,5 @@ EXTRA_OECONF += "\
             --with-host-os=${HOST_OS} \
             --disable-static \
             ${@bb.utils.contains('MACHINE_FEATURES', 'qti-sdx', '', '--enable-leproperties', d)} \
+            ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '--enable-vsock', '', d)} \
 "
