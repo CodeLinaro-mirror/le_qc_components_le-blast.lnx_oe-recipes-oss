@@ -21,6 +21,10 @@ EXTRA_OECONF = " \
                   --with-glib \
                   --with-bootver=${BOOT_VER} \
 "
+
+
+ADB_OVER_PCIE = "${@d.getVar('MACHINE_SUPPORTS_ADB_OVER_PCIE') or "False"}"
+
 do_install:append() {
     install -d ${D}${base_sbindir}
     install -d ${D}${sysconfdir}
@@ -31,16 +35,24 @@ do_install:append() {
     install -m 0644 ${S}/adbd.service -D ${D}${systemd_unitdir}/system/adbd.service
 
     if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-sdx', 'true', 'false', d)}; then
-        install -m 0755 ${S}/start_pcie -D ${D}${sysconfdir}/start_pcie
-        install -m 0644 ${S}/pcie.service -D ${D}${systemd_unitdir}/system/pcie.service
         # Run adb as part of local-fs.target
         sed -i '/Requires=usb.service/s/$/ diag-router.service/' ${D}${systemd_unitdir}/system/adbd.service
         sed -i 's/default.target/local-fs.target/g' ${D}${systemd_unitdir}/system/adbd.service
+    fi
+
+     if ${@oe.utils.conditional('ADB_OVER_PCIE', 'True', 'true', 'false', d)}; then
+        install -m 0755 ${S}/start_pcie -D ${D}${sysconfdir}/start_pcie
+        install -m 0644 ${S}/pcie.service -D ${D}${systemd_unitdir}/system/pcie.service
         sed -i 's/default.target/local-fs.target/g' ${D}${systemd_unitdir}/system/pcie.service
+     fi
+
+
+    if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', 'true', 'false', d)}; then
+        install -m 0644 ${S}/adbd-vsock.service -D ${D}${systemd_unitdir}/system/adbd.service
     fi
 }
 
 SYSTEMD_SERVICE:${PN}  = " adbd.service "
-SYSTEMD_SERVICE:${PN} += "${@bb.utils.contains('MACHINE_FEATURES','qti-sdx',' pcie.service','',d)}"
+SYSTEMD_SERVICE:${PN} += "${@oe.utils.conditional('ADB_OVER_PCIE','True', 'pcie.service', '',d)}"
 
 FILES:${PN} += "${systemd_unitdir}/system/"
