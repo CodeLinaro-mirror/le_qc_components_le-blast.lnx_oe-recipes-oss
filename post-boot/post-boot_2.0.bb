@@ -23,7 +23,9 @@ PACKAGECONFIG[logrestrict] = "--enable-logrestrict,--disable-logrestrict"
 PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
 
 EXTRA_OECONF:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} \
-                        --with-basemachine=${BASEMACHINE} "
+                        --with-basemachine=${BASEMACHINE} \
+                        --with-rootprefix=${root_prefix} \
+"
 
 do_compile[noexec]="1"
 
