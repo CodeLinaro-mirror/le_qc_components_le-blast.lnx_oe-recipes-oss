@@ -20,6 +20,7 @@ BOOT_VER = "${@ ('%s' % d.getVar('BOOT_HEADER_VERSION')) if (d.getVar('SKIP_VEND
 EXTRA_OECONF = " \
                   --with-glib \
                   --with-bootver=${BOOT_VER} \
+                  --with-rootprefix=${root_prefix} \
 "
 
 

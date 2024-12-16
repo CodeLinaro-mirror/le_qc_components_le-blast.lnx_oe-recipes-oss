@@ -14,7 +14,10 @@ S = "${WORKDIR}/leproperties"
 
 DEPENDS += "libselinux libcutils liblog"
 
-EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)}"
+EXTRA_OECONF = " \
+        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} \
+        --with-rootprefix=${root_prefix} \
+"
 
 do_install:append() {
     install -b -m 0644 /dev/null -D ${D}${sysconfdir}/build.prop
