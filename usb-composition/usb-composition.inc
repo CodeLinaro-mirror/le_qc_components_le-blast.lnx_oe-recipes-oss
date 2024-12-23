@@ -15,6 +15,10 @@ S = "${WORKDIR}/usb"
 
 DEPENDS += "libcutils libutils"
 
+EXTRA_OECONF = " \
+    --with-rootprefix=${root_prefix} \
+"
+
 do_install:append() {
    install -d ${D}${sysconfdir}/usb/
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsic_comp
