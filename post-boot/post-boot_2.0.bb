@@ -23,7 +23,9 @@ PACKAGECONFIG[logrestrict] = "--enable-logrestrict,--disable-logrestrict"
 PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
 
 EXTRA_OECONF:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} \
-                        --with-basemachine=${BASEMACHINE} "
+                        --with-basemachine=${BASEMACHINE} \
+                        --with-rootprefix=${root_prefix} \
+"
 
 do_compile[noexec]="1"
 
@@ -46,6 +48,11 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
+    fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'pineapple', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/pineapple/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
     fi
 }
 

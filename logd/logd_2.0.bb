@@ -14,7 +14,10 @@ S = "${WORKDIR}/logd"
 
 DEPENDS += "libbase libutils libcutils libsysutils liblog"
 
-EXTRA_OECONF = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', "",d)} "
+EXTRA_OECONF = " \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', "",d)} \
+    --with-rootprefix=${root_prefix} \
+"
 
 do_install:append() {
     if ${@bb.utils.contains('EXTRA_OECONF', '--with-systemd', 'true', 'false', d)}; then
