@@ -15,6 +15,7 @@ DEPENDS += "liblog linux-msm-headers"
 EXTRA_OECONF:append = " \
     --disable-static \
     --with-sanitized-headers=${STAGING_INCDIR}/linux-msm/usr/include \
+    --with-rootprefix=${root_prefix} \
 "
 
 PACKAGES +="${PN}-test-bin"
