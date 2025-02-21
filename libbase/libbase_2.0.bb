@@ -15,3 +15,5 @@ SRC_URI   = "file://base \
              file://include"
 
 S = "${WORKDIR}/base"
+
+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"

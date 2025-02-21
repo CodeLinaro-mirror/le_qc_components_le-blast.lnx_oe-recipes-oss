@@ -26,3 +26,5 @@ do_install:append() {
 SYSTEMD_SERVICE:${PN}  = " leprop.service "
 
 FILES:${PN} += "${systemd_unitdir}/system/"
+
+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"
