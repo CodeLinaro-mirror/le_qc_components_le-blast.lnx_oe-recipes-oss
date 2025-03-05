@@ -26,3 +26,6 @@ do_install:append() {
 SYSTEMD_SERVICE:${PN}  = " leprop.service "
 
 FILES:${PN} += "${systemd_unitdir}/system/"
+
+CFLAGS:append:sun = " -Wno-error=incompatible-pointer-types"
+CFLAGS:append:sun = " -Wno-error=implicit-function-declaration"
