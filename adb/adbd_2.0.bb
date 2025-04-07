@@ -24,6 +24,7 @@ EXTRA_OECONF = " \
                   --with-rootprefix=${root_prefix} \
 "
 
+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"
 
 ADB_OVER_PCIE = "${@d.getVar('MACHINE_SUPPORTS_ADB_OVER_PCIE') or "False"}"
 
