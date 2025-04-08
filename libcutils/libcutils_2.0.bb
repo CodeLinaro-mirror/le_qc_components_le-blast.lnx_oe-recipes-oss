@@ -22,4 +22,3 @@ EXTRA_OECONF += "\
             ${@bb.utils.contains('MACHINE_FEATURES', 'qti-sdx', '', '--enable-leproperties', d)} \
             ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '--enable-vsock', '', d)} \
 "
-CFLAGS:append:sun = " -Wno-error=incompatible-pointer-types"

@@ -15,5 +15,3 @@ DEPENDS += "glib-2.0 libcutils"
 
 BBCLASSEXTEND = "native"
 EXTRA_OECONF = " --with-glib"
-
-CFLAGS:append:sun = " -Wno-error=implicit-function-declaration"

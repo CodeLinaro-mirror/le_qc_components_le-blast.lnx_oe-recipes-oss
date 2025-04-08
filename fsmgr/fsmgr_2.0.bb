@@ -15,5 +15,3 @@ DEPENDS += "ext4-utils glib-2.0 libcutils libmincrypt logwrapper"
 
 BBCLASSEXTEND = "native"
 EXTRA_OECONF = " --with-glib"
-
-CFLAGS:append:sun = " -Wno-error=implicit-function-declaration"

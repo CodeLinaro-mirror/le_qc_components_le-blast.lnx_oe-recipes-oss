@@ -16,5 +16,3 @@ S = "${WORKDIR}/libsparse"
 BBCLASSEXTEND = "native"
 
 EXTRA_OECONF:append:class-native = "  --enable-img-convert-utils"
-
-CFLAGS:append:sun = " -Wno-error=incompatible-pointer-types"
