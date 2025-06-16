@@ -15,6 +15,10 @@ S = "${WORKDIR}/usb"
 
 DEPENDS += "libcutils libutils"
 
+EXTRA_OECONF = " \
+    --with-rootprefix=${root_prefix} \
+"
+
 do_install:append() {
    install -d ${D}${sysconfdir}/usb/
    install -b -m 0644 /dev/null ${D}${sysconfdir}/usb/boot_hsic_comp
@@ -43,6 +47,8 @@ PACKAGES:prepend = "${PN}-usbd "
 SYSTEMD:PACKAGES = "${PN}-usbd ${PN}"
 SYSTEMD:SERVICE:${PN} = "usb.service"
 SYSTEMD:SERVICE:${PN}-usbd = "usbd.service"
+SYSTEMD_SERVICE:${PN}:pineapple  = "usbd.service"
+SYSTEMD_SERVICE:${PN}:kalama  = "usbd.service"
 
 FILES:${PN} += "${systemd_unitdir}/system/usb.service"
 FILES:${PN}-usbd += "${bindir}/usbd ${systemd_unitdir}/system/usbd.service"

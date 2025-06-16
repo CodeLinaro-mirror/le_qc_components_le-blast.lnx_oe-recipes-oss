@@ -16,10 +16,11 @@ S = "${WORKDIR}/crypthelper-mediameta"
 
 CONFIG ?= "default.conf"
 CONFIG:cinder  = "cinder.conf"
-CONFIG:sxrneo  = "neo.conf"
 CONFIG:sm8450p = "waipio.conf"
 CONFIG:qrb5165 = "qrb5165.conf"
-CONFIG:kalama = "kalama.conf"
+CONFIG:kalama  = "kalama.conf"
+CONFIG:neo     = "neo.conf"
+CONFIG:pineapple = "pineapple.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 

@@ -12,9 +12,13 @@ SRC_URI = "file://leproperties"
 
 S = "${WORKDIR}/leproperties"
 
-DEPENDS += "libselinux libcutils liblog"
+DEPENDS += "libcutils liblog"
+DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '', d)}"
 
-EXTRA_OECONF = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)}"
+EXTRA_OECONF = " \
+        ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} \
+        --with-rootprefix=${root_prefix} \
+"
 
 do_install:append() {
     install -b -m 0644 /dev/null -D ${D}${sysconfdir}/build.prop
@@ -23,3 +27,5 @@ do_install:append() {
 SYSTEMD_SERVICE:${PN}  = " leprop.service "
 
 FILES:${PN} += "${systemd_unitdir}/system/"
+
+EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"
