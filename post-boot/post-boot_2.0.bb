@@ -45,6 +45,7 @@ do_install:append() {
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'kalama', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_4_0.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
