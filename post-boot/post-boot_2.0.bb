@@ -54,6 +54,11 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/pineapple/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
     fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'sun', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/sun/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/sun/init.kernel.post_boot-sun* ${D}/etc/
+    fi
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
