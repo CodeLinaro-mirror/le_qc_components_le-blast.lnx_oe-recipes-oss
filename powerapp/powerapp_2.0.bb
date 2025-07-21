@@ -35,6 +35,7 @@ EXTRA_OECONF:append:neo = " --with-basemachine=${BASEMACHINE}"
 EXTRA_OECONF:append:waipio = " --with-basemachine=${BASEMACHINE}"
 EXTRA_OECONF:append:sdxpinn = " --with-basemachine=${BASEMACHINE}"
 EXTRA_OECONF:append:mdm9607 = " --with-basemachine=${BASEMACHINE}"
+EXTRA_OECONF:append:ar-sg1 = " --with-basemachine=${MACHINE}"
 
 do_install:append() {
            ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_reboot
