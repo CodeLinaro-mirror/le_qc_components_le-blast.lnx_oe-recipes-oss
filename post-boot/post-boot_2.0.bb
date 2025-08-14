@@ -45,6 +45,7 @@ do_install:append() {
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'kalama', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_4_0.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
@@ -53,6 +54,11 @@ do_install:append() {
     if ${@bb.utils.contains('BASEMACHINE', 'pineapple', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/pineapple/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
+    fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'sun', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/sun/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/sun/init.kernel.post_boot-sun* ${D}/etc/
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'kera', 'true', 'false', d)}; then
