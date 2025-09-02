@@ -36,7 +36,6 @@ do_install:append() {
 
     install -d ${D}${systemd_unitdir}/system/
     install -m 0644 ${S}/adbd.service -D ${D}${systemd_unitdir}/system/adbd.service
-
     if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-sdx', 'true', 'false', d)}; then
         # Run adb as part of local-fs.target
         sed -i '/Requires=usb.service/s/$/ diag-router.service/' ${D}${systemd_unitdir}/system/adbd.service
@@ -53,6 +52,10 @@ do_install:append() {
     if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', 'true', 'false', d)}; then
         install -m 0644 ${S}/adbd-vsock.service -D ${D}${systemd_unitdir}/system/adbd.service
     fi
+}
+do_install:append:sdmsteppe() {
+    sed -i '/^\[Service\]/i# Make sure that qmmf-server service is up and running. \nBefore=qmmf-server.service\n' \
+	${D}${systemd_system_unitdir}/adbd.service
 }
 
 SYSTEMD_SERVICE:${PN}  = " adbd.service "
