@@ -15,6 +15,12 @@ S = "${WORKDIR}/leproperties"
 DEPENDS += "libcutils liblog"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '', d)}"
 
+PACKAGECONFIG ??= "\
+    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+"
+
+PACKAGECONFIG[systemd] = "--with-tmpfilesdir=${sysconfdir}/tmpfiles.d/, --with-tmpfilesdir=''"
+
 EXTRA_OECONF = " \
         ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '',d)} \
         --with-rootprefix=${root_prefix} \
