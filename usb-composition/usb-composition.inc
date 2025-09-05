@@ -49,6 +49,7 @@ SYSTEMD:SERVICE:${PN} = "usb.service"
 SYSTEMD:SERVICE:${PN}-usbd = "usbd.service"
 SYSTEMD_SERVICE:${PN}:pineapple  = "usbd.service"
 SYSTEMD_SERVICE:${PN}:kalama  = "usbd.service"
+SYSTEMD_SERVICE:${PN}:sun  = "usbd.service"
 
 FILES:${PN} += "${systemd_unitdir}/system/usb.service"
 FILES:${PN}-usbd += "${bindir}/usbd ${systemd_unitdir}/system/usbd.service"
