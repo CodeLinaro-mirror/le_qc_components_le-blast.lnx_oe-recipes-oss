@@ -22,6 +22,7 @@ CONFIG:kalama  = "kalama.conf"
 CONFIG:neo     = "neo.conf"
 CONFIG:pineapple = "pineapple.conf"
 CONFIG:qcs610 = "qcs610.conf"
+CONFIG:kera = "kera.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
