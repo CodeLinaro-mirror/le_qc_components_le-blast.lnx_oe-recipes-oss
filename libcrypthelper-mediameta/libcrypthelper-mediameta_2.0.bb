@@ -21,6 +21,7 @@ CONFIG:qrb5165 = "qrb5165.conf"
 CONFIG:kalama  = "kalama.conf"
 CONFIG:neo     = "neo.conf"
 CONFIG:pineapple = "pineapple.conf"
+CONFIG:qcs610 = "qcs610.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
