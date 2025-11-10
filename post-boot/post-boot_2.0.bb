@@ -56,9 +56,19 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
     fi
 
+    if ${@bb.utils.contains('BASEMACHINE', 'sun', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/sun/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/sun/init.kernel.post_boot-sun* ${D}/etc/
+    fi
+
     if ${@bb.utils.contains('BASEMACHINE', 'kera', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/kera/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kera/init.kernel.post_boot-kera* ${D}/etc/
+    fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'vienna', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna* ${D}/etc/
     fi
 }
 
