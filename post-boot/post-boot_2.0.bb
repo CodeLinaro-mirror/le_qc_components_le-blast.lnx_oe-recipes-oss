@@ -65,6 +65,17 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/kera/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/kera/init.kernel.post_boot-kera* ${D}/etc/
     fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'vienna', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna* ${D}/etc/
+    fi
+    if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
+    fi
+
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
