@@ -1,4 +1,4 @@
-inherit native autotools pkgconfig
+inherit autotools pkgconfig native
 
 DESCRIPTION = "EXT4 UTILS"
 HOMEPAGE = "http://developer.android.com/"
