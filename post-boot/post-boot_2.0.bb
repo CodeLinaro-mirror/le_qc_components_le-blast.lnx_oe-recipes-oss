@@ -75,6 +75,11 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
     fi
+    if ${@bb.utils.contains('BASEMACHINE', 'canoe', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/canoe/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/canoe/init.kernel.post_boot-alor* ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/canoe/init.kernel.post_boot-canoe* ${D}/etc/
+    fi
 
 }
 
