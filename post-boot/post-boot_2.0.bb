@@ -68,7 +68,8 @@ do_install:append() {
 
     if ${@bb.utils.contains('BASEMACHINE', 'vienna', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna* ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}/etc/
     fi
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
