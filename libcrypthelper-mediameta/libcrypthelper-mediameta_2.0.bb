@@ -24,6 +24,7 @@ CONFIG:pineapple = "pineapple.conf"
 CONFIG:qcs610 = "qcs610.conf"
 CONFIG:kera = "kera.conf"
 CONFIG:sun = "sun.conf"
+CONFIG:vienna = "vienna.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
