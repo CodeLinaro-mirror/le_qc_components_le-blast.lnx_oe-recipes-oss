@@ -28,6 +28,16 @@ EXTRA_OECONF = " \
 
 do_install:append() {
     install -b -m 0644 /dev/null -D ${D}${sysconfdir}/build.prop
+
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'full-disk-encryption', 'true', 'false', d)}; then
+
+        # Add DefaultDependencies=no
+        sed -i '/^Before=/a DefaultDependencies=no' ${D}${systemd_system_unitdir}/leprop.service
+
+        # Change WantedBy target
+        sed -i 's/^WantedBy=local-fs/WantedBy=local-fs-pre/' ${D}${systemd_system_unitdir}/leprop.service
+
+    fi
 }
 
 SYSTEMD_SERVICE:${PN}  = " leprop.service "

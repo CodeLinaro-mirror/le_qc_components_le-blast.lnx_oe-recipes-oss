@@ -1,4 +1,4 @@
-inherit native autotools pkgconfig
+inherit autotools pkgconfig native
 
 DESCRIPTION = "Minimalistic encryption library from Android"
 HOMEPAGE = "http://developer.android.com/"
