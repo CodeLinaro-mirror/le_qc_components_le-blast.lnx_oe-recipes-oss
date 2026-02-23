@@ -77,6 +77,11 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
     fi
 
+    if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
+    fi
+
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
