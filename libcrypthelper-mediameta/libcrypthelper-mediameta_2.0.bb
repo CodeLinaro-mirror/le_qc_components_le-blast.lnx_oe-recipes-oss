@@ -24,6 +24,7 @@ CONFIG:pineapple = "pineapple.conf"
 CONFIG:qcs610 = "${@bb.utils.contains('DISTRO_FEATURES', 'full-disk-encryption', 'qcs610_fde.conf', 'qcs610.conf', d)}"
 CONFIG:kera = "kera.conf"
 CONFIG:sun = "sun.conf"
+CONFIG:vienna = "vienna.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
