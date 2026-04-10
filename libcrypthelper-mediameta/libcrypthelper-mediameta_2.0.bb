@@ -25,6 +25,7 @@ CONFIG:qcs610 = "${@bb.utils.contains('DISTRO_FEATURES', 'full-disk-encryption',
 CONFIG:kera = "kera.conf"
 CONFIG:sun = "sun.conf"
 CONFIG:vienna = "vienna.conf"
+CONFIG:alor = "alor.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
