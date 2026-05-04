@@ -67,14 +67,30 @@ do_install:append() {
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'vienna', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}/etc/
+        install -d ${D}${sbindir}
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}${sbindir}/
+        sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'seraph', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_3_1.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_4_0.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_default_4_1.sh ${D}/etc/
+    fi
+
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
+    fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
     fi
 
 }
