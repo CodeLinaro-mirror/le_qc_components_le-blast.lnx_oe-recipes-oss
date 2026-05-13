@@ -102,6 +102,17 @@ do_install:append() {
     fi
 }
 
+do_install:append:qti-distro-camera() {
+    POST_BOOT_FILE="${D}/etc/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        sed -i '$a\
+rm -f /data/vendor/perfd/default_values\
+systemctl restart perf-hal.service
+        ' "$POST_BOOT_FILE"
+    fi
+}
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 FILES:${PN} += "${systemd_unitdir}/system/"
