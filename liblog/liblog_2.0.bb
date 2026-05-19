@@ -14,6 +14,8 @@ S = "${WORKDIR}/liblog"
 
 BBCLASSEXTEND = "native"
 
+DEPENDS += "glib-2.0"
+TARGET_LDFLAGS:append = " -lglib-2.0"
 EXTRA_OECONF += " --disable-static"
-EXTRA_OECONF:append:class-target = " --with-logd-logging"
+EXTRA_OECONF:append:class-target = " --without-logd-logging"
 EXTRA_OECONF += "${@bb.utils.contains('CLASSOVERRIDE', 'class-target', '--with-class-target', '',d)}"
