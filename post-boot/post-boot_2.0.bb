@@ -76,10 +76,14 @@ do_install:append() {
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'seraph', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_3_1.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_4_0.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_default_4_1.sh ${D}/etc/
+        install -d ${D}${sbindir}
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph*.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/coresight_reset_source_sink.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/dcc_extension.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.qti*.sh ${D}${sbindir}/
+        sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
@@ -95,6 +99,17 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+    fi
+}
+
+do_install:append:qti-distro-camera() {
+    POST_BOOT_FILE="${D}/etc/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        sed -i '$a\
+rm -f /data/vendor/perfd/default_values\
+systemctl restart perf-hal.service
+        ' "$POST_BOOT_FILE"
     fi
 }
 
