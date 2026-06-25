@@ -71,6 +71,7 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}${sbindir}/
         install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}${sbindir}/
         install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/vienna/coresight_reset_source_sink.sh ${D}${sbindir}/
         sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
         sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
