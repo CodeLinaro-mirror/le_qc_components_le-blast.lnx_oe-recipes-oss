@@ -11,4 +11,4 @@ DEPENDS = "libpagemap libcutils"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/:"
 SRC_URI = "file://procrank"
 
-S = "${WORKDIR}/procrank"
+S = "${UNPACKDIR}/procrank"

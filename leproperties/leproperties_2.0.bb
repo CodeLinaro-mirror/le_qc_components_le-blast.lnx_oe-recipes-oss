@@ -10,7 +10,7 @@ BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://leproperties"
 
-S = "${WORKDIR}/leproperties"
+S = "${UNPACKDIR}/leproperties"
 
 DEPENDS += "libcutils liblog"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '', d)}"

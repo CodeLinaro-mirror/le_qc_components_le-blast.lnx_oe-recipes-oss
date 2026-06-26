@@ -9,9 +9,10 @@ ${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://fs_mgr"
 
-S = "${WORKDIR}/fs_mgr"
+S = "${UNPACKDIR}/fs_mgr"
 
 DEPENDS += "ext4-utils glib-2.0 libcutils libmincrypt logwrapper"
 
+CFLAGS:append = " -Wno-implicit-function-declaration"
 BBCLASSEXTEND = "native"
 EXTRA_OECONF = " --with-glib"

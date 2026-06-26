@@ -12,6 +12,6 @@ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux-nativ
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/:"
 SRC_URI   = "file://ext4_utils"
 
-S = "${WORKDIR}/ext4_utils"
+S = "${UNPACKDIR}/ext4_utils"
 
 EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"

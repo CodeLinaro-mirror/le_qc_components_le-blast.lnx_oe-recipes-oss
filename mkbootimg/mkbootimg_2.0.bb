@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=89aea4e17d99a7ca
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://mkbootimg"
 
-S = "${WORKDIR}/${BPN}"
+S = "${UNPACKDIR}/${BPN}"
 
 DEPENDS += "libmincrypt-native"
 
@@ -18,7 +18,7 @@ do_compile:class-target[noexec] = "1"
 do_configure[noexec] = "1"
 MY_PN = "mkbootimg"
 
-EXTRA_OEMAKE = "INCLUDES='-Imincrypt' LIBS='${libdir}/libmincrypt.a'"
+EXTRA_OEMAKE = "INCLUDES='-Imincrypt' LIBS='-L${libdir} -lmincrypt'"
 
 do_compile:class-native () {
     cp -rf ${WORKSPACE}/system/core/${MY_PN}/* ${S}

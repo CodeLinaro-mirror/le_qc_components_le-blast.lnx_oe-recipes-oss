@@ -9,7 +9,7 @@ ${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://powerapp"
 
-S = "${WORKDIR}/powerapp"
+S = "${UNPACKDIR}/powerapp"
 
 PACKAGECONFIG ?= "glib"
 PACKAGECONFIG[glib] = "--with-glib, --without-glib, glib-2.0"

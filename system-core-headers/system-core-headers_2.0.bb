@@ -9,6 +9,6 @@ ${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core:"
 SRC_URI = "file://include"
 
-S = "${WORKDIR}/include"
+S = "${UNPACKDIR}/include"
 
 ALLOW_EMPTY:${PN} = "1"

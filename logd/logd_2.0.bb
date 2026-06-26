@@ -10,7 +10,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://logd \
            file://include "
 
-S = "${WORKDIR}/logd"
+S = "${UNPACKDIR}/logd"
 
 DEPENDS += "libbase libutils libcutils libsysutils liblog"
 

@@ -12,7 +12,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/libcrypthelper-mediameta/
 SRC_URI   = "file://crypthelper-mediameta"
 SRC_URI  += "file://configs/"
 
-S = "${WORKDIR}/crypthelper-mediameta"
+S = "${UNPACKDIR}/crypthelper-mediameta"
 
 CONFIG ?= "default.conf"
 CONFIG:cinder  = "cinder.conf"

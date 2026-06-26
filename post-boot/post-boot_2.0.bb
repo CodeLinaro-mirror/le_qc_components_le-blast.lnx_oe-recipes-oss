@@ -10,7 +10,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI  = "file://rootdir"
 SRC_URI += "file://init_post_boot.conf"
 
-S = "${WORKDIR}/rootdir"
+S = "${UNPACKDIR}/rootdir"
 
 PACKAGECONFIG:append:qcs40x = "${@bb.utils.contains('DEBUG_BUILD', '1', "debug", "", d)}"
 
@@ -39,59 +39,59 @@ do_install:append() {
         ln -sf ${systemd_unitdir}/system/init_post_boot.service \
                ${D}${systemd_unitdir}/system/ffbm.target.wants/init_post_boot.service
         if ${@bb.utils.contains('BASEMACHINE', 'trustedvm', 'true', 'false', d)}; then
-               install -m 0744 ${WORKDIR}/init_post_boot.conf -D \
+               install -m 0744 ${UNPACKDIR}/init_post_boot.conf -D \
                    ${D}${systemd_unitdir}/system/init_post_boot.service.d/init_post_boot.service.conf
         fi
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'kalama', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_4_0.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kalama/init.post_boot_3_4_0.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kalama/init.post_boot_3_2_1.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kalama/init.post_boot_default_3_4_1.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kalama/init.post_boot.sh ${D}/etc/
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'pineapple', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/pineapple/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/pineapple/init.post_boot.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/pineapple/init.kernel.post_boot-pineapple* ${D}/etc/
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'sun', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/sun/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/sun/init.kernel.post_boot-sun* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/sun/init.post_boot.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/sun/init.kernel.post_boot-sun* ${D}/etc/
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'kera', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/kera/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/kera/init.kernel.post_boot-kera* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kera/init.post_boot.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/kera/init.kernel.post_boot-kera* ${D}/etc/
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'vienna', 'true', 'false', d)}; then
         install -d ${D}${sbindir}
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/vienna/coresight_reset_source_sink.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/vienna/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/vienna/coresight_reset_source_sink.sh ${D}${sbindir}/
         sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
         sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'seraph', 'true', 'false', d)}; then
         install -d ${D}${sbindir}
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.post_boot.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph*.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/seraph/coresight_reset_source_sink.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/seraph/dcc_extension.sh ${D}${sbindir}/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.qti*.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/seraph/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/seraph/init.kernel.post_boot-seraph*.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/seraph/coresight_reset_source_sink.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/seraph/dcc_extension.sh ${D}${sbindir}/
+        install -m 755 ${UNPACKDIR}/rootdir/seraph/init.qti*.sh ${D}${sbindir}/
         sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
         sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
         install -d ${D}${libexecdir}
-        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}${libexecdir}/
-        install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/alor/init.post_boot.sh ${D}${libexecdir}/
+        install -m 755 ${UNPACKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
         rm -f ${D}${sysconfdir}/init.post_boot.sh
         sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
             ${D}${systemd_unitdir}/system/init_post_boot.service
@@ -99,14 +99,14 @@ do_install:append() {
             ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
     if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
     fi
     if ${@bb.utils.contains_any('BASEMACHINE', 'pebble', 'true', 'false', d)}; then
         install -d ${D}${libexecdir}
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}${libexecdir}/
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/pebble/init.post_boot.sh ${D}${libexecdir}/
+        install -m 755 ${UNPACKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
+        install -m 755 ${UNPACKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
         rm -f ${D}${sysconfdir}/init.post_boot.sh
         sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
             ${D}${systemd_unitdir}/system/init_post_boot.service
@@ -116,7 +116,7 @@ do_install:append() {
 
     #kernel debug configuration
     install -d ${D}/etc/scripts/
-    install -m 0755 ${WORKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
+    install -m 0755 ${UNPACKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
 }
 
 do_install:append:qti-distro-camera() {
