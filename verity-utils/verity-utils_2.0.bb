@@ -17,7 +17,7 @@ SRC_URI = "file://verity \
            file://../core/mkbootimg"
 
 
-S = "${WORKDIR}/verity"
+S = "${UNPACKDIR}/verity"
 
 do_editveritysigner () {
     sed -i -e '/^java/d' ${S}/verity_signer

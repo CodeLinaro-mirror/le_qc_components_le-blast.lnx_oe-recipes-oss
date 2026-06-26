@@ -12,7 +12,7 @@ FILESEXTRAPATHS:prepend:echo := "${THISDIR}/echo:"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://libion"
 
-S = "${WORKDIR}/libion"
+S = "${UNPACKDIR}/libion"
 DEPENDS += "liblog linux-msm-headers"
 
 EXTRA_OECONF:append = " \

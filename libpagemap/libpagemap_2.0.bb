@@ -9,4 +9,4 @@ ${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/:"
 SRC_URI = "file://libpagemap"
 
-S = "${WORKDIR}/libpagemap"
+S = "${UNPACKDIR}/libpagemap"

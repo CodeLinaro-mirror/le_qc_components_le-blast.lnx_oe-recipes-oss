@@ -12,4 +12,4 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://libsysutils \
              file://include"
 
-S = "${WORKDIR}/libsysutils"
+S = "${UNPACKDIR}/libsysutils"

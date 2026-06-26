@@ -10,7 +10,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI = "file://adb \
            file://include"
 
-S = "${WORKDIR}/adb"
+S = "${UNPACKDIR}/adb"
 
 DEPENDS += "ext4-utils glib-2.0 fsmgr libbase libcutils liblog virtual/mkbootimg"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '', d)}"

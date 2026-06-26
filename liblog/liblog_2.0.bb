@@ -10,7 +10,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://liblog \
              file://include"
 
-S = "${WORKDIR}/liblog"
+S = "${UNPACKDIR}/liblog"
 
 BBCLASSEXTEND = "native"
 

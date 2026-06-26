@@ -10,7 +10,7 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   =  "file://libutils \
               file://include "
 
-S = "${WORKDIR}/libutils"
+S = "${UNPACKDIR}/libutils"
 
 BBCLASSEXTEND = "native"
 DEPENDS += "safe-iop"

@@ -11,7 +11,7 @@ BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9"
 FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI   = "file://usb"
 
-S = "${WORKDIR}/usb"
+S = "${UNPACKDIR}/usb"
 
 DEPENDS += "libcutils libutils"
 
