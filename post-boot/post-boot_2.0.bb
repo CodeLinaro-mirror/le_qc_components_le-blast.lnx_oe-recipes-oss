@@ -103,9 +103,15 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
     fi
     if ${@bb.utils.contains_any('BASEMACHINE', 'pebble', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}/etc/
+        install -d ${D}${libexecdir}
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}${libexecdir}/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+        rm -f ${D}${sysconfdir}/init.post_boot.sh
+        sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc/init.post_boot.sh|SourcePath=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     #kernel debug configuration
@@ -122,6 +128,14 @@ do_install:append:qti-distro-camera() {
 }
 
 do_install:append:qti-distro-camera:alor() {
+    POST_BOOT_FILE="${D}${libexecdir}/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
+    fi
+}
+
+do_install:append:qti-distro-camera:pebble() {
     POST_BOOT_FILE="${D}${libexecdir}/init.post_boot.sh"
 
     if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
