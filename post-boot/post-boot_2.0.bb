@@ -74,17 +74,47 @@ do_install:append() {
         sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
         sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
+
+    if ${@bb.utils.contains('BASEMACHINE', 'seraph', 'true', 'false', d)}; then
+        install -d ${D}${sbindir}
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph*.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/coresight_reset_source_sink.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/dcc_extension.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.qti*.sh ${D}${sbindir}/
+        sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
+    fi
+
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
     fi
-
     if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
     fi
+    if ${@bb.utils.contains_any('BASEMACHINE', 'pebble', 'true', 'false', d)}; then
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+    fi
 
+    #kernel debug configuration
+    install -d ${D}/etc/scripts/
+    install -m 0755 ${WORKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
+}
+
+do_install:append:qti-distro-camera() {
+    POST_BOOT_FILE="${D}/etc/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        sed -i '$a\
+rm -f /data/vendor/perfd/default_values\
+systemctl restart perf-hal.service
+        ' "$POST_BOOT_FILE"
+    fi
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
