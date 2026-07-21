@@ -100,6 +100,10 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
     fi
+
+    #kernel debug configuration
+    install -d ${D}/etc/scripts/
+    install -m 0755 ${WORKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
 }
 
 do_install:append:qti-distro-camera() {
