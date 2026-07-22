@@ -26,6 +26,7 @@ CONFIG:kera = "kera"
 CONFIG:sun = "sun.conf"
 CONFIG:vienna = "vienna.conf"
 CONFIG:alor = "alor.conf"
+CONFIG:seraph = "seraph.conf"
 
 EXTRA_OECONF:append = " --with-config=${CONFIG}"
 
