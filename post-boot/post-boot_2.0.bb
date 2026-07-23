@@ -88,9 +88,15 @@ do_install:append() {
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
+        install -d ${D}${libexecdir}
+        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}${libexecdir}/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
+        rm -f ${D}${sysconfdir}/init.post_boot.sh
+        sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc/init.post_boot.sh|SourcePath=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
     if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
@@ -116,11 +122,16 @@ do_install:append() {
 do_install:append:qti-distro-camera() {
     POST_BOOT_FILE="${D}/etc/init.post_boot.sh"
 
+    if [ -f "$POST_BOOT_FILE" ] && ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
+    fi
+}
+
+do_install:append:qti-distro-camera:alor() {
+    POST_BOOT_FILE="${D}${libexecdir}/init.post_boot.sh"
+
     if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
-        sed -i '$a\
-rm -f /data/vendor/perfd/default_values\
-systemctl restart perf-hal.service
-        ' "$POST_BOOT_FILE"
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
     fi
 }
 
