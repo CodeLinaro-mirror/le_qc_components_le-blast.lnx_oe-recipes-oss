@@ -71,30 +71,75 @@ do_install:append() {
         install -m 755 ${WORKDIR}/rootdir/vienna/init.post_boot.sh ${D}${sbindir}/
         install -m 755 ${WORKDIR}/rootdir/vienna/init.kernel.post_boot-vienna.sh ${D}${sbindir}/
         install -m 755 ${WORKDIR}/rootdir/vienna/init.qti.kernel.debug-vienna.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/vienna/coresight_reset_source_sink.sh ${D}${sbindir}/
         sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
         sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'seraph', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_3_1.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_4_0.sh ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph_default_4_1.sh ${D}/etc/
+        install -d ${D}${sbindir}
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.post_boot.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.kernel.post_boot-seraph*.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/coresight_reset_source_sink.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/dcc_extension.sh ${D}${sbindir}/
+        install -m 755 ${WORKDIR}/rootdir/seraph/init.qti*.sh ${D}${sbindir}/
+        sed -i 's|^ExecStart=/etc|ExecStart=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc|SourcePath=/usr/sbin|' ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
 
     if ${@bb.utils.contains('BASEMACHINE', 'alor', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}/etc/
+        install -d ${D}${libexecdir}
+        install -m 755 ${WORKDIR}/rootdir/alor/init.post_boot.sh ${D}${libexecdir}/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-alor* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/alor/init.kernel.post_boot-canoe* ${D}/etc/
+        rm -f ${D}${sysconfdir}/init.post_boot.sh
+        sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc/init.post_boot.sh|SourcePath=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
     fi
     if ${@bb.utils.contains('BASEMACHINE', 'sa535m', 'true', 'false', d)}; then
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.post_boot.sh ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/sa535m/init.qti.debug.sh ${D}/etc/
     fi
     if ${@bb.utils.contains_any('BASEMACHINE', 'pebble', 'true', 'false', d)}; then
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}/etc/
+        install -d ${D}${libexecdir}
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}${libexecdir}/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
         install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+        rm -f ${D}${sysconfdir}/init.post_boot.sh
+        sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
+        sed -i 's|^SourcePath=/etc/init.post_boot.sh|SourcePath=/usr/libexec/init.post_boot.sh|' \
+            ${D}${systemd_unitdir}/system/init_post_boot.service
+    fi
+
+    #kernel debug configuration
+    install -d ${D}/etc/scripts/
+    install -m 0755 ${WORKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
+}
+
+do_install:append:qti-distro-camera() {
+    POST_BOOT_FILE="${D}/etc/init.post_boot.sh"
+
+    if [ -f "$POST_BOOT_FILE" ] && ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
+    fi
+}
+
+do_install:append:qti-distro-camera:alor() {
+    POST_BOOT_FILE="${D}${libexecdir}/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
+    fi
+}
+
+do_install:append:qti-distro-camera:pebble() {
+    POST_BOOT_FILE="${D}${libexecdir}/init.post_boot.sh"
+
+    if ! grep -q "perf-hal.service" "$POST_BOOT_FILE"; then
+        printf '\nrm -f /data/vendor/perfd/default_values\nsystemctl restart perf-hal.service\n' >> "$POST_BOOT_FILE"
     fi
 }
 
