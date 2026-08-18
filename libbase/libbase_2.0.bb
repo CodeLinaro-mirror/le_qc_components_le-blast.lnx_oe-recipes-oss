@@ -17,4 +17,9 @@ SRC_URI   = "file://base \
 
 S = "${UNPACKDIR}/base"
 
+do_install:append() {
+    install -d ${D}${includedir}/android-base
+    install -m 0644 ${D}${includedir}/base/* ${D}${includedir}/android-base/
+}
+
 EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"
