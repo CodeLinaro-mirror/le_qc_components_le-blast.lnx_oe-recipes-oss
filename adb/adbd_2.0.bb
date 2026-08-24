@@ -31,11 +31,13 @@ ADB_OVER_PCIE = "${@d.getVar('MACHINE_SUPPORTS_ADB_OVER_PCIE') or "False"}"
 do_install:append() {
     install -d ${D}${base_sbindir}
     install -d ${D}${sysconfdir}
+    install -d ${D}${includedir}
     install -m 0755 ${S}/launch_adbd -D ${D}${base_sbindir}/launch_adbd
     install -b -m 0644 /dev/null ${D}${sysconfdir}/adb_devid
 
     install -d ${D}${systemd_unitdir}/system/
     install -m 0644 ${S}/adbd.service -D ${D}${systemd_unitdir}/system/adbd.service
+    install -m 0644 ${S}/*h -D ${D}${includedir}/
 
     if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-sdx', 'true', 'false', d)}; then
         # Run adb as part of local-fs.target
