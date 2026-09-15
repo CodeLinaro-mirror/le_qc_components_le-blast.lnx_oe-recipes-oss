@@ -2,6 +2,7 @@ From 2d07cc8bc4ac1ac76dcb23e03716a802d2ee8e57 Mon Sep 17 00:00:00 2001
 From: Radhika Bandichhode <rbandich@qti.qualcomm.com>
 Date: Wed, 27 May 2026 11:27:53 +0530
 Subject: [PATCH] libion: Update kernel-headers/linux/ion.h with new ION ABI
+Upstream-Status: Inappropriate [LE platform specific - kernel 6.18 ION ABI update for sa535m]
  structures
 
 Signed-off-by: Radhika Bandichhode <rbandich@qti.qualcomm.com>

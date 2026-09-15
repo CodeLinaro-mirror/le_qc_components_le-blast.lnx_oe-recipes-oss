@@ -16,6 +16,10 @@ SRC_URI   = "file://libcutils \
 
 S = "${UNPACKDIR}/libcutils"
 
+do_install:append() {
+    install -m 0644 ${UNPACKDIR}/include/private/*.h ${D}${includedir}/private/
+}
+
 EXTRA_OECONF += "\
             --with-host-os=${HOST_OS} \
             --disable-static \

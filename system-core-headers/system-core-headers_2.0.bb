@@ -12,3 +12,5 @@ SRC_URI = "file://include"
 S = "${UNPACKDIR}/include"
 
 ALLOW_EMPTY:${PN} = "1"
+
+BBCLASSEXTEND = "native"
