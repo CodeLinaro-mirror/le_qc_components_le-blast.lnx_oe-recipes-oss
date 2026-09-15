@@ -37,13 +37,31 @@ EXTRA_OECONF:append:sdxpinn = " --with-basemachine=${BASEMACHINE}"
 EXTRA_OECONF:append:mdm9607 = " --with-basemachine=${BASEMACHINE}"
 EXTRA_OECONF:append:ar-sg1 = " --with-basemachine=${MACHINE}"
 EXTRA_OECONF:append:echo= " --with-basemachine=${BASEMACHINE}"
+EXTRA_OECONF:append:seraph = " --with-basemachine=${MACHINE}"
 
 do_install:append() {
-           ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_reboot
-           ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_shutdown
 
+    if ${@bb.utils.contains('MACHINE', 'seraph', 'true', 'false', d)}; then
+
+        # Move binaries to /usr/sbin
+        if [ -d ${D}/sbin ]; then
+            mkdir -p ${D}${base_sbindir}
+            mv ${D}/sbin/* ${D}${base_sbindir}/
+            rmdir ${D}/sbin || true
+        fi
+
+        # Move systemd units
+        if [ -d ${D}/lib/systemd/system ]; then
+            mkdir -p ${D}${systemd_unitdir}/system
+            mv ${D}/lib/systemd/system/*.service ${D}${systemd_unitdir}/system/
+            rm -rf ${D}/lib
+        fi
+
+    fi
+
+    ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_reboot
+    ln ${D}${base_sbindir}/powerapp ${D}${base_sbindir}/sys_shutdown
 }
-
 
 pkg_postinst:${PN}-reboot () {
         if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)}; then
