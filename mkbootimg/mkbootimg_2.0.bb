@@ -3,7 +3,7 @@ DESCRIPTION = "Boot image creation tool from Android"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/core:"
 SRC_URI = "file://mkbootimg"
 
 S = "${WORKDIR}/${BPN}"
@@ -21,7 +21,7 @@ MY_PN = "mkbootimg"
 EXTRA_OEMAKE = "INCLUDES='-Imincrypt' LIBS='${libdir}/libmincrypt.a'"
 
 do_compile:class-native () {
-    cp -rf ${WORKSPACE}/system/core/${MY_PN}/* ${S}
+    cp -rf ${WORKSPACE_SOURCES}/system/core/${MY_PN}/* ${S}
     cd ${S}
 	oe_runmake
     cd -

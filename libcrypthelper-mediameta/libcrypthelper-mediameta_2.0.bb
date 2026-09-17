@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
 ${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/libcrypthelper-mediameta/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/extras/libcrypthelper-mediameta/:"
 SRC_URI   = "file://crypthelper-mediameta"
 SRC_URI  += "file://configs/"
 

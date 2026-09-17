@@ -10,11 +10,11 @@ DEPENDS += "liblog"
 
 BBCLASSEXTEND = "native"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/core:"
 SRC_URI   = "file://libcutils \
              file://include "
 
-S = "${WORKDIR}/libcutils"
+S = "${UNPACKDIR}/libcutils"
 
 EXTRA_OECONF += "\
             --with-host-os=${HOST_OS} \

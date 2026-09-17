@@ -9,7 +9,7 @@ ${LICENSE};md5=89aea4e17d99a7cacdbeed46a0096b10"
 DEPENDS = "libsparse libcutils libpcre"
 DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '', d)}"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/extras/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/extras:"
 SRC_URI   = "file://ext4_utils"
 
 S = "${WORKDIR}/ext4_utils"

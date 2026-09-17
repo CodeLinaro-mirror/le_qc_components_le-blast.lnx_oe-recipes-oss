@@ -11,7 +11,7 @@ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'libselinux', '',
 
 BBCLASSEXTEND = "native"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/core/:"
 SRC_URI   = "file://base \
              file://include"
 
