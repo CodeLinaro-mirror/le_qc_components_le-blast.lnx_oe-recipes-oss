@@ -40,6 +40,16 @@ do_install:append() {
     fi
 }
 
+do_install:append:qti-distro-camera() {
+    SERVICE_FILE="${D}${systemd_system_unitdir}/leprop.service"
+
+    if [ -f "$SERVICE_FILE" ]; then
+        if ! grep -q '^DefaultDependencies=no' "$SERVICE_FILE"; then
+            sed -i '/^Before=/a DefaultDependencies=no' "$SERVICE_FILE"
+        fi
+    fi
+}
+
 SYSTEMD_SERVICE:${PN}  = " leprop.service "
 
 FILES:${PN} += "${systemd_unitdir}/system/"

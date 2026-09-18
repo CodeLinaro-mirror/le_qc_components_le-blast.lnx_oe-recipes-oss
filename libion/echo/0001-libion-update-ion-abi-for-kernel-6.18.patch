@@ -1,0 +1,70 @@
+From 2d07cc8bc4ac1ac76dcb23e03716a802d2ee8e57 Mon Sep 17 00:00:00 2001
+From: Radhika Bandichhode <rbandich@qti.qualcomm.com>
+Date: Wed, 27 May 2026 11:27:53 +0530
+Subject: [PATCH] libion: Update kernel-headers/linux/ion.h with new ION ABI
+ structures
+
+Signed-off-by: Radhika Bandichhode <rbandich@qti.qualcomm.com>
+The existing ion.h was based on old staging driver API
+(drivers/staging/android/uapi/ion.h) which is incompatible
+with ion_new.c requirements.
+
+Add missing new ION ABI definitions:
+- Add 'fd' member to struct ion_allocation_data
+- Add struct ion_heap_data
+- Add struct ion_heap_query with 'cnt' and 'heaps' members
+- Add ION_IOC_HEAP_QUERY ioctl definition
+
+These structures are required by ion_new.c for:
+- ion_alloc_fd()
+- ion_query_heap_cnt()
+- ion_query_get_heaps()
+
+Change-Id: Ifcff06ac944e74f09a7a2257d3ae4321efc3bb39
+---
+ libion/kernel-headers/linux/ion.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/libion/kernel-headers/linux/ion.h b/libion/kernel-headers/linux/ion.h
+index 3c280803..27d724a0 100644
+--- a/libion/kernel-headers/linux/ion.h
++++ b/libion/kernel-headers/linux/ion.h
+@@ -48,6 +48,7 @@ struct ion_allocation_data {
+ /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+  unsigned int heap_id_mask;
+  unsigned int flags;
++ unsigned int fd;
+  ion_user_handle_t handle;
+ };
+ /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+@@ -64,6 +65,20 @@ struct ion_custom_data {
+  unsigned int cmd;
+  unsigned long arg;
+ };
++
++/**
++ * struct ion_heap_query - query heap info
++ * @cnt:    number of heaps to be populated
++ * @heaps:  pointer to array of ion_heap_data
++ */
++struct ion_heap_query {
++    __u32 cnt;
++    __u32 reserved0;
++    __u64 heaps;
++    __u32 reserved1;
++    __u32 reserved2;
++};
++
+ #define ION_IOC_MAGIC 'I'
+ /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+ #define ION_IOC_ALLOC _IOWR(ION_IOC_MAGIC, 0,   struct ion_allocation_data)
+@@ -74,5 +89,6 @@ struct ion_custom_data {
+ #define ION_IOC_IMPORT _IOWR(ION_IOC_MAGIC, 5, struct ion_fd_data)
+ #define ION_IOC_SYNC _IOWR(ION_IOC_MAGIC, 7, struct ion_fd_data)
+ #define ION_IOC_CUSTOM _IOWR(ION_IOC_MAGIC, 6, struct ion_custom_data)
++#define ION_IOC_HEAP_QUERY      _IOWR(ION_IOC_MAGIC, 8, struct ion_heap_query)
+ #endif
+ /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+-- 
+2.34.1
+
