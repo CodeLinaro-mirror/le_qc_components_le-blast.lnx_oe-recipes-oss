@@ -12,4 +12,4 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/core/:"
 SRC_URI   = "file://libmincrypt \
              file://include"
 
-S = "${WORKDIR}/libmincrypt"
+S = "${UNPACKDIR}/libmincrypt"
