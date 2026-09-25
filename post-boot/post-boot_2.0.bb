@@ -6,12 +6,9 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
 ${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
 
-FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:${WORKSPACE}/vendor/qcom/proprietary/kernel-scripts/:"
+FILESEXTRAPATHS:prepend := "${WORKSPACE}/system/core/:"
 SRC_URI  = "file://rootdir"
 SRC_URI += "file://init_post_boot.conf"
-SRC_URI:append:echo = " \
-    file://echo/init.qti.kernel.rproc_tracing.sh \
-"
 
 S = "${WORKDIR}/rootdir"
 
@@ -120,11 +117,6 @@ do_install:append() {
     #kernel debug configuration
     install -d ${D}/etc/scripts/
     install -m 0755 ${WORKDIR}/rootdir/coresight_reset_source_sink.sh ${D}/etc/scripts/
-
-    if ${@bb.utils.contains('BASEMACHINE', 'echo', 'true', 'false', d)}; then
-        install -d ${D}/etc/initscripts
-        install -m 0755 ${WORKDIR}/echo/init.qti.kernel.rproc_tracing.sh ${D}/etc/initscripts/
-    fi
 }
 
 do_install:append:qti-distro-camera() {
