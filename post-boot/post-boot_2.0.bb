@@ -105,8 +105,8 @@ do_install:append() {
     if ${@bb.utils.contains_any('BASEMACHINE', 'pebble', 'true', 'false', d)}; then
         install -d ${D}${libexecdir}
         install -m 755 ${WORKDIR}/rootdir/pebble/init.post_boot.sh ${D}${libexecdir}/
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}/etc/
-        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}/etc/
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-art* ${D}${libexecdir}/
+        install -m 755 ${WORKDIR}/rootdir/pebble/init.kernel.post_boot-pebble* ${D}${libexecdir}/
         rm -f ${D}${sysconfdir}/init.post_boot.sh
         sed -i 's|^ExecStart=/etc/init.post_boot.sh|ExecStart=/usr/libexec/init.post_boot.sh|' \
             ${D}${systemd_unitdir}/system/init_post_boot.service
