@@ -12,4 +12,4 @@ SRC_URI   = "file://safe-iop"
 SRC_URI  += "file://autotools.patch"
 
 BBCLASSEXTEND = "native"
-S = "${UNPACKDIR}/safe-iop"
+S = "${WORKDIR}/safe-iop"

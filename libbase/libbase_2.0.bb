@@ -15,6 +15,6 @@ FILESEXTRAPATHS:prepend := "${WORKSPACE_SOURCES}/system/core/:"
 SRC_URI   = "file://base \
              file://include"
 
-S = "${UNPACKDIR}/base"
+S = "${WORKDIR}/base"
 
 EXTRA_OECONF += "${@bb.utils.contains('DISTRO_FEATURES', 'selinux', '--enable-selinux', '', d)}"
